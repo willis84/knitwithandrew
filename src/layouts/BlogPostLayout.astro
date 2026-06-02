@@ -58,7 +58,7 @@ const structuredData = [
       name: site.name,
       url: site.url,
     },
-    image: absoluteUrl(post.data.heroImage ?? site.ogImage),
+    image: absoluteUrl(post.data.ogImage ?? post.data.heroImage ?? site.ogImage),
     keywords: [post.data.primaryKeyword, ...post.data.secondaryKeywords, ...post.data.tags].filter(Boolean).join(", "),
   },
   {
@@ -91,7 +91,7 @@ const structuredData = [
 <BaseLayout
   title={`${post.data.title} — Knit with Andrew`}
   description={post.data.description}
-  ogImage={post.data.heroImage}
+  ogImage={post.data.ogImage ?? post.data.heroImage}
   ogImageAlt={post.data.imageAlt ?? post.data.title}
   type="article"
   publishedDate={post.data.pubDate.toISOString()}

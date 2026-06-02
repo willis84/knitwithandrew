@@ -5,7 +5,7 @@ excerpt: "A knitting design diary about turning a silly idea into a wearable bea
 category: "Knitting design"
 primaryKeyword: "knitting design"
 secondaryKeywords: ["beanie knitting pattern", "knitting blog", "design diary"]
-heroImage: "/assets/beating-heart-beanie-hero.jpg"
+heroImage: "/assets/beating-heart-beanie-og.jpg"
 imageAlt: "A red knitted beanie with a folded brim and lace heart motif shown outdoors."
 pubDate: 2026-06-02
 tags: ["knitting-design", "beanie", "projects"]

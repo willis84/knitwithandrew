@@ -13,6 +13,7 @@ const blog = defineCollection({
       primaryKeyword: z.string().optional(),
       secondaryKeywords: z.array(z.string()).default([]),
       heroImage: z.string().optional(),
+      ogImage: z.string().optional(),
       imageAlt: z.string().optional(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),

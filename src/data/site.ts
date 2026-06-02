@@ -10,8 +10,8 @@ export const site = {
   authorBio:
     "Andrew Willis is a UK-based knitter sharing colourful projects, practical knitting guides, design notes, and honest pattern testing advice.",
   locale: "en_GB",
-  ogImage: "/og-default.svg",
-  defaultOgImage: "/og-default.svg",
+  ogImage: "/assets/og-default.jpg",
+  defaultOgImage: "/assets/og-default.jpg",
   primaryKeyword: "knitting",
   secondaryKeywords: ["knitting tutorials", "knitting patterns", "knitting blog", "knitting design", "pattern testing"],
   intro:
