@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { absoluteUrl } from "@/utils/seo";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Privacy Policy",
+  description: "Privacy information for Knit with Andrew, including analytics, Knit Notes from Andrew email subscriptions, and third-party links.",
+  url: absoluteUrl("/privacy/"),
+};
+---
+
+<BaseLayout title="Privacy Policy — Knit with Andrew" description="Privacy information for Knit with Andrew, including analytics, Knit Notes from Andrew email subscriptions, and third-party links." structuredData={structuredData}>
+  <section class="mx-auto max-w-4xl px-5 py-12">
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage">Privacy</p>
+    <h1 class="mt-4 text-6xl font-black tracking-tight text-ink">Privacy policy</h1>
+    <p class="mt-5 max-w-3xl text-xl font-semibold leading-8 text-ink-soft">
+      This page explains what limited information this site uses, what third-party services are involved, and what is not tracked.
+    </p>
+
+    <div class="prose-kwa mt-12 rounded-4xl border-2 border-ink bg-paper/75 p-6 shadow-[10px_10px_0_rgba(16,16,20,0.14)] sm:p-8">
+      <h2>Analytics</h2>
+      <p>
+        This site uses privacy-friendly, cookieless analytics to understand which pages are useful and how people find the site.
+      </p>
+      <p>
+        The analytics setup does not use tracking cookies, does not track visitors across websites, and does not create personal profiles.
+      </p>
+      <p>
+        I use this information to improve the site, write better knitting tutorials, and understand which posts are useful to readers.
+      </p>
+
+      <h2>Knit Notes from Andrew</h2>
+      <p>
+        If you sign up for Knit Notes from Andrew, your email address is submitted to Buttondown so I can send occasional updates, pattern releases, tester calls, and knitting notes.
+      </p>
+      <p>
+        I do not use your email address for anything unrelated to these emails, and you can unsubscribe at any time using the link in any email.
+      </p>
+
+      <h2>Third-Party Links</h2>
+      <p>
+        This site links out to third-party services such as Instagram, TikTok, Ravelry, Ko-fi, and Buttondown. If you follow those links or use those services, their own privacy policies and terms apply.
+      </p>
+
+      <h2>Comments</h2>
+      <p>
+        Comments are not currently enabled on this site. If that changes in future, this page will be updated to reflect the comment provider in use and any additional data involved.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        If the way this site handles analytics, email subscriptions, or third-party services changes, this privacy policy will be updated to match.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -5,14 +5,25 @@ import { site } from "@/data/site";
 
 <footer class="mx-auto mt-20 w-full max-w-6xl px-5 pb-10">
   <div class="rounded-4xl border-2 border-ink bg-panel p-6 text-panel-text shadow-[10px_10px_0_color-mix(in_oklch,var(--color-candy-paint)_45%,transparent)]">
-    <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-      <div>
+    <div class="flex flex-col gap-6 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-x-6">
+      <div class="sm:col-start-1 sm:row-start-1">
         <p class="text-sm font-bold uppercase tracking-[0.25em] text-panel-text/60">{site.domain}</p>
         <p class="mt-3 max-w-xl text-sm font-semibold leading-6 text-panel-text/80">
           A colourful knitting home for project notes, guides, design experiments, and the messy useful bits of pattern testing.
         </p>
       </div>
-      <SocialLinks compact eventLocation="footer" />
+      <div class="sm:col-start-2 sm:row-start-1 sm:row-span-2 sm:self-center">
+        <SocialLinks compact eventLocation="footer" />
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-y-2 text-center text-sm font-bold text-panel-text/75 sm:col-start-1 sm:row-start-2 sm:justify-start sm:text-left">
+        <a href="/privacy/" class="underline decoration-panel-text/45 decoration-2 underline-offset-4 transition hover:text-paper hover:decoration-paper">
+          Privacy policy
+        </a>
+        <span aria-hidden="true" class="px-2 text-panel-text/55">&bull;</span>
+        <a href="/terms/" class="underline decoration-panel-text/45 decoration-2 underline-offset-4 transition hover:text-paper hover:decoration-paper">
+          Terms of use
+        </a>
+      </div>
     </div>
   </div>
 </footer>
