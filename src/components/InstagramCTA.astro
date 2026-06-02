@@ -4,11 +4,13 @@ import { site } from "@/data/site";
 interface Props {
   title?: string;
   description?: string;
+  eventLocation?: string;
 }
 
 const {
   title = "Follow my latest knitting projects on Instagram",
   description = "Follow my latest knitting projects, tester calls, and colourful experiments on Instagram.",
+  eventLocation = "unknown",
 } = Astro.props;
 ---
 
@@ -18,6 +20,8 @@ const {
   <p class="mt-4 max-w-2xl text-base font-semibold leading-7 text-panel-text/85">{description}</p>
   <a
     data-cta="instagram-follow"
+    data-simple-event="instagram_follow_click"
+    data-simple-event-location={eventLocation}
     href={site.socials.instagram}
     target="_blank"
     rel="noopener noreferrer"

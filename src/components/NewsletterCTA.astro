@@ -4,11 +4,13 @@ import { site } from "@/data/site";
 interface Props {
   title?: string;
   description?: string;
+  eventLocation?: string;
 }
 
 const {
   title = "Knit Notes from Andrew",
   description = "Get occasional knitting notes, pattern releases, tester calls, and behind-the-scenes project updates.",
+  eventLocation = "unknown",
 } = Astro.props;
 
 const isLiveButtondown = site.newsletter.enabled && site.newsletter.provider === "buttondown" && site.newsletter.action;
@@ -34,6 +36,8 @@ const isLiveButtondown = site.newsletter.enabled && site.newsletter.provider ===
       <button
         type="submit"
         data-cta="newsletter-subscribe"
+        data-simple-event="newsletter_subscribe_click"
+        data-simple-event-location={eventLocation}
         class="inline-flex items-center justify-center rounded-full bg-panel px-6 py-3 text-sm font-black text-panel-text transition hover:-translate-y-0.5"
       >
         Subscribe

@@ -7,15 +7,18 @@ interface Props {
   href: string;
   description: string;
   icon?: SocialIconName;
+  eventLocation?: string;
 }
 
-const { label, href, description, icon = null } = Astro.props;
+const { label, href, description, icon = null, eventLocation = "unknown" } = Astro.props;
 ---
 
 <a
   href={href}
   target="_blank"
   rel="noopener noreferrer"
+  data-simple-event={`${label.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "")}_click`}
+  data-simple-event-location={eventLocation}
   class="group block rounded-[1.7rem] border-2 border-ink bg-paper/75 p-5 text-ink shadow-[7px_7px_0_rgba(16,16,20,0.16)] transition hover:-translate-y-1 hover:shadow-[10px_10px_0_color-mix(in_oklch,var(--color-candy-paint)_38%,transparent)]"
 >
   <span class="flex items-center justify-between gap-4">

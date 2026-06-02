@@ -17,6 +17,8 @@ interface Props {
 
 const { post, allPosts } = Astro.props;
 const articleUrl = absoluteUrl(`/blog/${post.id}/`);
+const postTrackingSlug = post.id.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+const newsletterEventLocation = `blog_post__${postTrackingSlug}`;
 const typeLabel = getTypeLabel(post.data.type);
 const sectionHref = post.data.type === "guide"
   ? "/guides/"
@@ -133,8 +135,8 @@ const structuredData = [
     <RelatedPosts currentPost={post} posts={allPosts} />
 
     <div class="mt-16 grid gap-6 lg:grid-cols-2">
-      <InstagramCTA title="Follow the next project on Instagram" description="I share knitting progress, tester calls, and the colourful experiments that do not always make it into a full post." />
-      <NewsletterCTA title="Knit Notes from Andrew" description="Get occasional knitting notes, pattern releases, tester calls, and behind-the-scenes project updates." />
+      <InstagramCTA title="Follow the next project on Instagram" description="I share knitting progress, tester calls, and the colourful experiments that do not always make it into a full post." eventLocation="blog_post_footer" />
+      <NewsletterCTA title="Knit Notes from Andrew" description="Get occasional knitting notes, pattern releases, tester calls, and behind-the-scenes project updates." eventLocation={newsletterEventLocation} />
     </div>
 
     <!-- <Comments term={post.id} /> -->
