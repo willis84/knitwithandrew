@@ -5,16 +5,21 @@ import { links } from "@/data/site";
 interface Props {
   compact?: boolean;
   className?: string;
+  desktopColumns?: 2 | 4;
 }
 
-const { compact = false, className = "" } = Astro.props;
+const { compact = false, className = "", desktopColumns = 4 } = Astro.props;
+
+const standardGridClass = desktopColumns === 2
+  ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-2"
+  : "grid gap-4 sm:grid-cols-2 lg:grid-cols-4";
 ---
 
 <div
   class:list={[
     compact
       ? "grid grid-cols-2 justify-items-center gap-3 lg:justify-items-end"
-      : "grid gap-4 sm:grid-cols-2 lg:grid-cols-4",
+      : standardGridClass,
     className,
   ]}
 >
