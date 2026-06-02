@@ -9,7 +9,7 @@ const { term } = Astro.props;
 ---
 
 {comments.enabled ? (
-  <section class="mt-14 rounded-[2rem] border-2 border-ink/10 bg-paper/65 p-6">
+  <section class="mt-14 rounded-4xl border-2 border-ink/10 bg-paper/65 p-6">
     <h2 class="text-2xl font-black tracking-tight text-ink">Comments</h2>
     <div class="mt-5">
       <script
@@ -33,7 +33,7 @@ const { term } = Astro.props;
     </div>
   </section>
 ) : (
-  <section class="mt-14 rounded-[2rem] border-2 border-dashed border-ink/20 bg-paper/45 p-6">
+  <section class="mt-14 rounded-4xl border-2 border-dashed border-ink/20 bg-paper/45 p-6">
     <h2 class="text-2xl font-black tracking-tight text-ink">Comments later</h2>
     <p class="mt-3 max-w-2xl font-semibold leading-7 text-ink-soft">
       This site is static, so comments are best added with Giscus, Utterances, Hyvor Talk, or another hosted/static-friendly comment tool.
