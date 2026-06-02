@@ -1,0 +1,57 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+  publishedDate?: string;
+  publishedTime?: string;
+  updatedDate?: string;
+  modifiedTime?: string;
+  keywords?: string[];
+  tags?: string[];
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={Astro.props.title}
+      description={Astro.props.description}
+      canonical={Astro.props.canonical}
+      image={Astro.props.image}
+      ogImage={Astro.props.ogImage}
+      ogImageAlt={Astro.props.ogImageAlt}
+      type={Astro.props.type}
+      noindex={Astro.props.noindex}
+      publishedDate={Astro.props.publishedDate}
+      publishedTime={Astro.props.publishedTime}
+      updatedDate={Astro.props.updatedDate}
+      modifiedTime={Astro.props.modifiedTime}
+      keywords={Astro.props.keywords}
+      tags={Astro.props.tags}
+      structuredData={Astro.props.structuredData}
+    />
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only fixed left-4 top-4 z-50 rounded-full bg-panel px-4 py-3 text-sm font-black text-panel-text focus:not-sr-only">
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

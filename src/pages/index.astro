@@ -1,0 +1,149 @@
+---
+import { getCollection } from "astro:content";
+import InstagramCTA from "@/components/InstagramCTA.astro";
+import LinkCard from "@/components/LinkCard.astro";
+import NewsletterCTA from "@/components/NewsletterCTA.astro";
+import PostCard from "@/components/PostCard.astro";
+import InternalLinkCard from "@/components/seo/InternalLinkCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { links, site } from "@/data/site";
+import { absoluteUrl } from "@/utils/seo";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featured = posts.filter((post) => post.data.featured).slice(0, 3);
+const latest = featured.length > 0 ? featured : posts.slice(0, 3);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: site.title,
+  description: site.description,
+  url: site.url,
+  about: ["Knitting", "Knitting guides", "Pattern testing", "Fibre crafts"],
+  keywords: "knitting, knitting blog, knitting guides, knitting patterns, pattern testing",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: latest.map((post, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/blog/${post.id}/`),
+      name: post.data.title,
+    })),
+  },
+};
+const featureCards = [
+  {
+    href: "/guides/",
+    label: "Knitting tutorials",
+    description: "Clear knitting guides, fixes, and practical walkthroughs for the bits that usually get overexplained.",
+  },
+  {
+    href: "/patterns/",
+    label: "Knitting patterns",
+    description: "Design notes, pattern ideas, and the projects that are turning into something worth publishing.",
+  },
+  {
+    href: "/blog/",
+    label: "Knitting blog",
+    description: "Project notes, yarn thoughts, and the slightly chaotic diary side of making things by hand.",
+  },
+  {
+    href: "/pattern-testing/",
+    label: "Pattern testing",
+    description: "Advice for better test knits, clearer feedback, and pattern tests that actually help the design improve.",
+  },
+];
+---
+
+<BaseLayout
+  title="Knitting with Andrew | Colourful Projects, Tutorials & Pattern Testing"
+  description="Practical knitting tutorials, colourful project notes, pattern testing advice, and honest making updates from Andrew Willis, a UK-based knitter."
+  structuredData={structuredData}
+>
+  <section class="mx-auto grid max-w-6xl gap-10 px-5 py-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.28em] text-candy-paint">{site.domain}</p>
+      <h1 class="mt-4 max-w-4xl text-6xl font-black leading-[0.92] tracking-tight text-ink sm:text-7xl lg:text-8xl">
+        Knitting, colour, and honest notes from Andrew.
+      </h1>
+      <p class="mt-6 max-w-2xl text-xl font-semibold leading-8 text-ink-soft">{site.intro}</p>
+      <p class="mt-4 max-w-2xl text-base font-semibold leading-7 text-ink-soft">
+        I share weekly posts about modern knitting projects, approachable knitting guides, and the real-world side of knitting design and pattern testing.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/blog/" class="rounded-full bg-panel px-6 py-3 text-sm font-black text-panel-text shadow-[5px_5px_0_var(--color-candy-paint)] transition hover:-translate-y-0.5">Read the knitting blog</a>
+        <a href="/guides/" class="rounded-full border-2 border-ink bg-paper/60 px-6 py-3 text-sm font-black text-ink transition hover:bg-panel hover:text-panel-text">Browse knitting guides</a>
+      </div>
+    </div>
+
+    <div class="rounded-[2.2rem] border-2 border-ink bg-paper p-5 shadow-[12px_12px_0_rgba(16,16,20,0.18)]">
+      <div class="overflow-hidden rounded-[1.7rem] bg-panel">
+        <img
+          src="/assets/me.jpg"
+          alt="Andrew"
+          class="h-72 w-full object-cover object-center sm:h-80"
+        />
+      </div>
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-3xl bg-candy-paint/15 p-4 font-extrabold text-ink">Knitting</div>
+        <div class="rounded-3xl bg-voltage-inverse/15 p-4 font-extrabold text-ink">Guides</div>
+        <div class="rounded-3xl bg-voltage/15 p-4 font-extrabold text-ink">Pattern testing</div>
+        <div class="rounded-3xl bg-candy-paint-inverse/15 p-4 font-extrabold text-ink">Knitting design</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto grid max-w-6xl gap-6 px-5 py-6 lg:grid-cols-2">
+    <InstagramCTA />
+    <NewsletterCTA description="Get occasional knitting notes, pattern releases, tester calls, and behind-the-scenes project updates." />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-10">
+    <div class="mb-6">
+      <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage">Explore</p>
+      <h2 class="mt-2 text-4xl font-black tracking-tight text-ink">Four ways into the knitting pile</h2>
+    </div>
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      {featureCards.map((card) => <InternalLinkCard {...card} />)}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-10">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {links.map((link) => <LinkCard {...link} />)}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-10">
+    <div class="mx-auto max-w-4xl rounded-[2rem] border-2 border-ink bg-paper/70 p-6 text-center shadow-[10px_10px_0_color-mix(in_oklch,var(--color-voltage)_18%,transparent)] sm:p-8">
+      <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage">Knitting, properly</p>
+      <h2 class="mt-3 text-4xl font-black tracking-tight text-ink sm:text-5xl">What knitting means to me</h2>
+      <p class="mx-auto mt-5 max-w-3xl text-lg font-semibold leading-8 text-ink-soft">
+        For me, knitting is part project diary, part problem-solving, and part excuse to make something bright. I write about modern knitting projects, approachable knitting guides, and the real-world side of knitting design as I go.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="/guides/" class="rounded-full bg-voltage/15 px-4 py-2 text-sm font-black text-ink transition hover:bg-panel hover:text-panel-text">Knitting guides</a>
+        <a href="/blog/" class="rounded-full bg-candy-paint/15 px-4 py-2 text-sm font-black text-ink transition hover:bg-panel hover:text-panel-text">Knitting projects and notes</a>
+        <a href="/tags/guides/" class="rounded-full bg-candy-paint-inverse/15 px-4 py-2 text-sm font-black text-ink transition hover:bg-panel hover:text-panel-text">Pattern testing and guides</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-10">
+    <div class="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+      <div>
+        <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage-inverse">Latest writing</p>
+        <h2 class="mt-2 text-4xl font-black tracking-tight text-ink">Latest knitting posts & guides</h2>
+      </div>
+      <a href="/blog/" class="font-black text-voltage-inverse underline decoration-candy-paint decoration-2 underline-offset-4">View all knitting posts</a>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {latest.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+
+  <!-- <section class="mx-auto max-w-6xl px-5 py-10">
+    <AlpacoraBlock />
+  </section> -->
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+interface Props {
+  typeLabel: string;
+  publishedDate: Date;
+  updatedDate?: Date;
+  category?: string;
+}
+
+const { typeLabel, publishedDate, updatedDate, category } = Astro.props;
+const publishedLabel = publishedDate.toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+const updatedLabel = updatedDate?.toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+---
+
+<div>
+  <p class="text-sm font-black uppercase tracking-[0.25em] text-candy-paint">{typeLabel}{category ? ` · ${category}` : ""} · {publishedLabel}</p>
+  {updatedDate && updatedDate.valueOf() !== publishedDate.valueOf() && (
+    <p class="mt-2 text-sm font-semibold text-ink-soft">Updated {updatedLabel}</p>
+  )}
+</div>

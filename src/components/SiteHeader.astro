@@ -1,0 +1,29 @@
+---
+import { site } from "@/data/site";
+
+const nav = [
+  { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog/" },
+  { label: "Guides", href: "/guides/" },
+  { label: "Patterns", href: "/patterns/" },
+  { label: "About", href: "/about/" },
+];
+---
+
+<header class="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-6">
+  <a href="/" class="group inline-flex items-center gap-3 font-black tracking-tight text-ink no-underline">
+    <span class="grid size-11 place-items-center rounded-2xl bg-panel text-xl text-panel-text shadow-[6px_6px_0_var(--color-candy-paint)] transition group-hover:-translate-y-0.5">A</span>
+    <span class="text-lg sm:text-xl">{site.name}</span>
+  </a>
+
+  <nav class="flex items-center gap-2 rounded-full border-2 border-ink/10 bg-paper/55 p-1 shadow-sm backdrop-blur">
+    {nav.map((item) => (
+      <a
+        href={item.href}
+        class="rounded-full px-3 py-2 text-sm font-extrabold text-ink-soft transition hover:bg-panel hover:text-panel-text sm:px-4"
+      >
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>

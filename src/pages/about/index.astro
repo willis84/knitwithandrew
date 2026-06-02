@@ -1,0 +1,79 @@
+---
+import InstagramCTA from "@/components/InstagramCTA.astro";
+import NewsletterCTA from "@/components/NewsletterCTA.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
+import InternalLinkCard from "@/components/seo/InternalLinkCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+import { absoluteUrl } from "@/utils/seo";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Andrew",
+    description: "Meet Andrew Willis, a UK-based knitter sharing colourful projects, practical knitting tutorials, pattern notes, and honest making updates.",
+    url: absoluteUrl("/about/"),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.author,
+    description: site.authorBio,
+    url: site.url,
+    sameAs: Object.values(site.socials),
+  },
+];
+
+const relatedSections = [
+  {
+    href: "/blog/",
+    label: "Read the knitting blog",
+    description: "Project notes, yarn thoughts, and the stories behind what I am making.",
+  },
+  {
+    href: "/guides/",
+    label: "Browse knitting tutorials",
+    description: "Guides for the practical side of knitting, written by someone who has definitely done things the awkward way first.",
+  },
+  {
+    href: "/pattern-testing/",
+    label: "Pattern testing notes",
+    description: "Why test knitting matters, how it goes weird, and what makes it genuinely useful.",
+  },
+];
+---
+
+<BaseLayout title="About Andrew — Knit with Andrew" description="Meet Andrew Willis, a UK-based knitter sharing colourful projects, practical knitting tutorials, pattern notes, and honest making updates." structuredData={structuredData}>
+  <section class="mx-auto grid max-w-6xl gap-10 px-5 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+    <div class="rounded-[2rem] border-2 border-ink bg-paper/75 p-5 shadow-[12px_12px_0_rgba(16,16,20,0.18)]">
+      <div class="overflow-hidden rounded-[1.7rem] bg-panel">
+        <img src="/assets/me.jpg" alt="Andrew smiling outdoors" class="h-80 w-full object-cover object-center" />
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.25em] text-candy-paint">About</p>
+      <h1 class="mt-4 text-6xl font-black tracking-tight text-ink">Andrew Willis</h1>
+      <p class="mt-5 max-w-3xl text-xl font-semibold leading-8 text-ink-soft">I am a UK-based knitter who likes bright yarn, honest notes, and figuring out why a thing worked once it has already gone a bit sideways.</p>
+      <p class="mt-5 max-w-3xl text-lg font-semibold leading-8 text-ink-soft">This site is where I keep the useful bits: knitting projects, practical guides, design notes, and pattern testing thoughts that feel worth writing down properly.</p>
+      <p class="mt-5 max-w-3xl text-base font-semibold leading-7 text-ink-soft">{site.authorBio}</p>
+      <div class="mt-8 text-ink">
+        <SocialLinks />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-10">
+    <div class="grid gap-5 md:grid-cols-3">
+      {relatedSections.map((card) => <InternalLinkCard {...card} />)}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-4">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <InstagramCTA title="Follow the making in real time" />
+      <NewsletterCTA />
+    </div>
+  </section>
+</BaseLayout>

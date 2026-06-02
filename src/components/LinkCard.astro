@@ -1,0 +1,30 @@
+---
+import SocialIcon from "@/components/SocialIcon.astro";
+import type { SocialIconName } from "@/data/site";
+
+interface Props {
+  label: string;
+  href: string;
+  description: string;
+  icon?: SocialIconName;
+}
+
+const { label, href, description, icon = null } = Astro.props;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group block rounded-[1.7rem] border-2 border-ink bg-paper/75 p-5 text-ink shadow-[7px_7px_0_rgba(16,16,20,0.16)] transition hover:-translate-y-1 hover:shadow-[10px_10px_0_color-mix(in_oklch,var(--color-candy-paint)_38%,transparent)]"
+>
+  <span class="flex items-center justify-between gap-4">
+    <span class="text-xl font-black tracking-tight">{label}</span>
+    {icon && (
+      <span class="grid size-9 place-items-center rounded-full bg-panel text-panel-text transition group-hover:bg-candy-paint">
+        <SocialIcon name={icon} class="size-4.5" />
+      </span>
+    )}
+  </span>
+  <span class="mt-3 block text-sm font-semibold leading-6 text-ink-soft">{description}</span>
+</a>

@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Georgia", ui-serif, serif;
+
+  --color-voltage-500: oklch(0.8 0.275 135);
+  --color-candy-paint-500: oklch(0.725 0.26 330);
+
+  --color-voltage: var(--color-voltage-500);
+  --color-candy-paint: var(--color-candy-paint-500);
+  --color-voltage-inverse: oklch(
+    from var(--color-voltage) l calc(c + 0.022) calc(h - 45)
+  );
+  --color-candy-paint-inverse: oklch(
+    from var(--color-candy-paint) l calc(c + 0.022) calc(h - 90)
+  );
+
+  --color-fg: #111114;
+  --color-fg-soft: #2d2540;
+  --color-surface: #eeffee;
+  --color-surface-muted: #ddffdd;
+  --color-panel: #111114;
+  --color-panel-text: #eeffee;
+
+  --color-ink: var(--color-fg);
+  --color-ink-soft: var(--color-fg-soft);
+  --color-paper: var(--color-surface);
+  --color-paper-warm: var(--color-surface-muted);
+}
+
+:root {
+  color-scheme: light dark;
+  background: var(--color-surface);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-fg: oklch(0.94 0.012 145);
+    --color-fg-soft: oklch(0.8 0.02 145);
+    --color-surface: oklch(0.19 0.02 155);
+    --color-surface-muted: oklch(0.25 0.025 155);
+    --color-panel: oklch(0.12 0.018 160);
+    --color-panel-text: oklch(0.95 0.01 145);
+    color-scheme: dark;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-ink);
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in oklch, var(--color-voltage-inverse) 33%, transparent), transparent 26rem),
+    radial-gradient(circle at 88% 12%, color-mix(in oklch, var(--color-voltage) 33%, transparent), transparent 24rem),
+    radial-gradient(circle at 22% 82%, color-mix(in oklch, var(--color-candy-paint) 33%, transparent), transparent 22rem),
+    radial-gradient(circle at 76% 88%, color-mix(in oklch, var(--color-candy-paint-inverse) 33%, transparent), transparent 20rem),
+    linear-gradient(180deg, var(--color-paper) 0%, var(--color-paper-warm) 100%);
+}
+
+::selection {
+  background: var(--color-panel);
+  color: var(--color-panel-text);
+}
+
+.prose-kwa {
+  @apply max-w-none text-lg leading-8 text-ink-soft;
+}
+
+.prose-kwa h2 {
+  @apply mt-12 mb-4 text-3xl font-black tracking-tight text-ink;
+}
+
+.prose-kwa h3 {
+  @apply mt-8 mb-3 text-2xl font-black tracking-tight text-ink;
+}
+
+.prose-kwa p {
+  @apply my-5;
+}
+
+.prose-kwa a {
+  @apply font-bold text-voltage-inverse underline decoration-candy-paint decoration-2 underline-offset-4;
+}
+
+.prose-kwa ul,
+.prose-kwa ol {
+  @apply my-5 pl-6;
+}
+
+.prose-kwa li {
+  @apply my-2;
+}
+
+.prose-kwa blockquote {
+  @apply my-8 rounded-3xl border-l-8 border-voltage-inverse bg-paper/75 px-6 py-4 font-semibold text-ink;
+}
+
+.prose-kwa code {
+  @apply rounded-lg bg-panel px-2 py-1 text-sm font-bold text-panel-text;
+}

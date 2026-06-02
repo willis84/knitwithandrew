@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { absoluteUrl } from "@/utils/seo";
+
+const posts = (await getCollection("blog")).filter((post) => !post.data.draft);
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort((a, b) => a.localeCompare(b));
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Tags",
+  description: "Browse Knit with Andrew posts by topic.",
+  url: absoluteUrl("/tags/"),
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: tags.map((tag, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/tags/${tag}/`),
+      name: tag,
+    })),
+  },
+};
+---
+
+<BaseLayout title="Tags — Knit with Andrew" description="Browse Knit with Andrew posts by topic." structuredData={structuredData}>
+  <section class="mx-auto max-w-4xl px-5 py-12">
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage-inverse">Browse</p>
+    <h1 class="mt-4 text-6xl font-black tracking-tight text-ink">Tags</h1>
+    <div class="mt-8 flex flex-wrap gap-3">
+      {tags.map((tag) => (
+        <a href={`/tags/${tag}/`} class="rounded-full border-2 border-ink bg-paper/70 px-4 py-2 font-black text-ink transition hover:bg-panel hover:text-panel-text">#{tag}</a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

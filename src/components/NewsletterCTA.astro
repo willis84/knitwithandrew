@@ -1,0 +1,58 @@
+---
+import { site } from "@/data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Join the newsletter",
+  description = "Get occasional knitting notes, pattern releases, tester calls, and behind-the-scenes project updates.",
+} = Astro.props;
+
+const isLiveButtondown = site.newsletter.enabled && site.newsletter.provider === "buttondown" && site.newsletter.action;
+---
+
+<section class="rounded-[2rem] border-2 border-ink bg-paper/80 p-6 shadow-[10px_10px_0_color-mix(in_oklch,var(--color-voltage)_20%,transparent)] sm:p-8">
+  <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage-inverse">Newsletter</p>
+  <h2 class="mt-3 text-3xl font-black tracking-tight text-ink sm:text-4xl">{title}</h2>
+  <p class="mt-4 max-w-2xl text-base font-semibold leading-7 text-ink-soft">{description}</p>
+  {isLiveButtondown ? (
+    <form action={site.newsletter.action} method="post" class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <label for="newsletter-email" class="sr-only">Enter your email</label>
+      <input
+        type="email"
+        name="email"
+        id="newsletter-email"
+        autocomplete="email"
+        inputmode="email"
+        required
+        placeholder="Enter your email"
+        class="min-w-0 flex-1 rounded-full border-2 border-ink/15 bg-paper px-5 py-3 text-sm font-semibold text-ink placeholder:text-ink-soft/80 focus:border-voltage-inverse focus:outline-none"
+      />
+      <button
+        type="submit"
+        data-cta="newsletter-subscribe"
+        class="inline-flex items-center justify-center rounded-full bg-panel px-6 py-3 text-sm font-black text-panel-text transition hover:-translate-y-0.5"
+      >
+        Subscribe
+      </button>
+    </form>
+  ) : (
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <input
+        disabled
+        aria-label="Newsletter signup coming soon"
+        placeholder="Email signup coming soon"
+        class="min-w-0 flex-1 rounded-full border-2 border-ink/15 bg-paper px-5 py-3 text-sm font-semibold text-ink-soft opacity-80"
+      />
+      <span
+        data-cta="newsletter-coming-soon"
+        class="inline-flex items-center justify-center rounded-full bg-panel px-6 py-3 text-sm font-black text-panel-text opacity-90"
+      >
+        Coming soon
+      </span>
+    </div>
+  )}
+</section>

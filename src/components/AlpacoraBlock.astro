@@ -1,0 +1,21 @@
+---
+import { alpacora } from "@/data/site";
+---
+
+<section class="rounded-[2rem] border-2 border-ink bg-paper/75 p-6 shadow-[10px_10px_0_color-mix(in_oklch,var(--color-voltage)_35%,transparent)] sm:p-8">
+  <div class="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage">Building this too</p>
+      <h2 class="mt-3 text-4xl font-black tracking-tight text-ink sm:text-5xl">{alpacora.name}</h2>
+      <p class="mt-4 text-xl font-extrabold text-ink">{alpacora.strapline}</p>
+      <p class="mt-4 max-w-2xl text-base font-semibold leading-7 text-ink-soft">{alpacora.description}</p>
+    </div>
+    <div class="rounded-[1.5rem] bg-panel p-5 text-panel-text">
+      <p class="text-sm font-bold uppercase tracking-[0.22em] text-panel-text/60">For designers</p>
+      <p class="mt-3 text-2xl font-black leading-tight">Less spreadsheet wrangling. More useful tester feedback.</p>
+      <a href={alpacora.href} class="mt-5 inline-flex rounded-full bg-paper px-5 py-3 text-sm font-black text-ink transition hover:bg-candy-paint hover:text-panel-text">
+        Visit Alpacora
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,142 @@
+---
+import type { BlogEntry } from "@/utils/content";
+import ArticleMeta from "@/components/seo/ArticleMeta.astro";
+import Breadcrumbs from "@/components/seo/Breadcrumbs.astro";
+import InstagramCTA from "@/components/InstagramCTA.astro";
+import NewsletterCTA from "@/components/NewsletterCTA.astro";
+import RelatedPosts from "@/components/seo/RelatedPosts.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { absoluteUrl } from "@/utils/seo";
+import { site } from "@/data/site";
+import { getTypeLabel } from "@/utils/content";
+
+interface Props {
+  post: BlogEntry;
+  allPosts: BlogEntry[];
+}
+
+const { post, allPosts } = Astro.props;
+const articleUrl = absoluteUrl(`/blog/${post.id}/`);
+const typeLabel = getTypeLabel(post.data.type);
+const sectionHref = post.data.type === "guide"
+  ? "/guides/"
+  : post.data.type === "pattern"
+    ? "/patterns/"
+    : post.data.type === "pattern-testing"
+      ? "/pattern-testing/"
+      : "/blog/";
+const sectionTitle = post.data.type === "guide"
+  ? "Guides"
+  : post.data.type === "pattern"
+    ? "Patterns"
+    : post.data.type === "pattern-testing"
+      ? "Pattern testing"
+      : "Blog";
+const breadcrumbs = [
+  { label: "Home", href: "/" },
+  { label: sectionTitle, href: sectionHref },
+  { label: post.data.title },
+];
+const schemaType = post.data.type === "guide" ? "Article" : "BlogPosting";
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": schemaType,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.pubDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+    mainEntityOfPage: articleUrl,
+    url: articleUrl,
+    articleSection: typeLabel,
+    author: {
+      "@type": "Person",
+      name: site.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: site.url,
+    },
+    image: absoluteUrl(post.data.heroImage ?? site.ogImage),
+    keywords: [post.data.primaryKeyword, ...post.data.secondaryKeywords, ...post.data.tags].filter(Boolean).join(", "),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: site.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: sectionTitle,
+        item: absoluteUrl(sectionHref),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.data.title,
+        item: articleUrl,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={`${post.data.title} — Knit with Andrew`}
+  description={post.data.description}
+  ogImage={post.data.heroImage}
+  ogImageAlt={post.data.imageAlt ?? post.data.title}
+  type="article"
+  publishedDate={post.data.pubDate.toISOString()}
+  updatedDate={(post.data.updatedDate ?? post.data.pubDate).toISOString()}
+  keywords={[post.data.primaryKeyword, ...post.data.secondaryKeywords].filter((value): value is string => Boolean(value))}
+  tags={post.data.tags}
+  structuredData={structuredData}
+>
+  <article class="mx-auto max-w-3xl px-5 py-10">
+    <Breadcrumbs items={breadcrumbs} />
+    <header class="mt-8 rounded-[2rem] border-2 border-ink bg-paper/70 p-6 shadow-[10px_10px_0_color-mix(in_oklch,var(--color-candy-paint)_28%,transparent)] sm:p-8">
+      {post.data.heroImage && (
+        <div class="mb-6 overflow-hidden rounded-[1.5rem] border border-ink/10">
+          <img
+            src={post.data.heroImage}
+            alt={post.data.imageAlt ?? post.data.title}
+            class="h-auto w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+      <ArticleMeta typeLabel={typeLabel} publishedDate={post.data.pubDate} updatedDate={post.data.updatedDate} category={post.data.category} />
+      <h1 class="mt-4 text-4xl font-black leading-tight tracking-tight text-ink sm:text-6xl">{post.data.title}</h1>
+      <p class="mt-5 text-xl font-semibold leading-8 text-ink-soft">{post.data.description}</p>
+      {post.data.tags.length > 0 && (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {post.data.tags.map((tag: string) => (
+            <a href={`/tags/${tag}/`} class="rounded-full bg-paper-warm px-3 py-1 text-xs font-extrabold text-ink-soft hover:bg-panel hover:text-panel-text">#{tag}</a>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose-kwa mt-12">
+      <slot />
+    </div>
+
+    <RelatedPosts currentPost={post} posts={allPosts} />
+
+    <div class="mt-16 grid gap-6 lg:grid-cols-2">
+      <InstagramCTA title="Follow the next project on Instagram" description="I share knitting progress, tester calls, and the colourful experiments that do not always make it into a full post." />
+      <NewsletterCTA title="Join the newsletter" description="Get occasional knitting notes, pattern releases, tester calls, and behind-the-scenes project updates." />
+    </div>
+
+    <!-- <Comments term={post.id} /> -->
+  </article>
+</BaseLayout>

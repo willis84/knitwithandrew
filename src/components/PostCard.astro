@@ -1,0 +1,42 @@
+---
+import { getTypeLabel } from "@/utils/content";
+
+interface Props {
+  post: any;
+}
+
+const { post } = Astro.props;
+const href = `/blog/${post.id}/`;
+const date = post.data.pubDate.toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+const typeLabel = getTypeLabel(post.data.type);
+---
+
+<article class="rounded-[1.7rem] border-2 border-ink/15 bg-paper/70 p-5 shadow-sm transition hover:-translate-y-1 hover:border-ink hover:shadow-[8px_8px_0_color-mix(in_oklch,var(--color-voltage-inverse)_25%,transparent)]">
+  {post.data.heroImage && (
+    <a href={href} class="mb-4 block overflow-hidden rounded-[1.2rem] border border-ink/10">
+      <img
+        src={post.data.heroImage}
+        alt={post.data.imageAlt ?? post.data.title}
+        class="aspect-[1.91/1] w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  )}
+  <p class="text-xs font-black uppercase tracking-[0.22em] text-candy-paint">{typeLabel} · {date}</p>
+  <h3 class="mt-3 text-2xl font-black leading-tight tracking-tight text-ink">
+    <a href={href}>{post.data.title}</a>
+  </h3>
+  <p class="mt-3 text-sm font-semibold leading-6 text-ink-soft">{post.data.description}</p>
+  {post.data.tags.length > 0 && (
+    <div class="mt-4 flex flex-wrap gap-2">
+      {post.data.tags.map((tag: string) => (
+        <span class="rounded-full bg-paper-warm px-3 py-1 text-xs font-extrabold text-ink-soft">#{tag}</span>
+      ))}
+    </div>
+  )}
+</article>

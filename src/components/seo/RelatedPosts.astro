@@ -1,0 +1,27 @@
+---
+import PostCard from "@/components/PostCard.astro";
+import type { BlogEntry } from "@/utils/content";
+import { getRelatedPosts } from "@/utils/content";
+
+interface Props {
+  currentPost: BlogEntry;
+  posts: BlogEntry[];
+}
+
+const { currentPost, posts } = Astro.props;
+const relatedPosts = getRelatedPosts(posts, currentPost);
+---
+
+{relatedPosts.length > 0 && (
+  <section class="mt-16">
+    <div class="mb-6 flex items-end justify-between gap-3">
+      <div>
+        <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage">Keep reading</p>
+        <h2 class="mt-2 text-3xl font-black tracking-tight text-ink sm:text-4xl">Related posts</h2>
+      </div>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {relatedPosts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+)}

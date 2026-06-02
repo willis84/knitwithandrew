@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import InstagramCTA from "@/components/InstagramCTA.astro";
+import NewsletterCTA from "@/components/NewsletterCTA.astro";
+import PostCard from "@/components/PostCard.astro";
+import InternalLinkCard from "@/components/seo/InternalLinkCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { absoluteUrl } from "@/utils/seo";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft && post.data.type === "pattern-testing")
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Pattern testing",
+  description: "Pattern testing advice for knitters and designers, including tester communication, feedback, deadlines, and running better test projects.",
+  url: absoluteUrl("/pattern-testing/"),
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: posts.map((post, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/blog/${post.id}/`),
+      name: post.data.title,
+    })),
+  },
+};
+
+const relatedSections = [
+  {
+    href: "/guides/",
+    label: "Read more knitting tutorials",
+    description: "Guides cover the practical knitting side. Pattern testing covers the communication and structure around it.",
+  },
+  {
+    href: "/blog/",
+    label: "Back to the knitting blog",
+    description: "The blog has the broader project notes and design updates around the testing work.",
+  },
+  {
+    href: "/patterns/",
+    label: "See the pattern notes",
+    description: "Pattern pages collect the design-side work that eventually needs testing in the real world.",
+  },
+];
+---
+
+<BaseLayout title="Pattern Testing for Knitters and Designers — Knit with Andrew" description="Pattern testing advice for knitters and designers, including tester communication, feedback, deadlines, and running better test projects." structuredData={structuredData}>
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-voltage">Testing</p>
+    <h1 class="mt-4 text-6xl font-black tracking-tight text-ink">Pattern testing</h1>
+    <p class="mt-5 max-w-3xl text-xl font-semibold leading-8 text-ink-soft">Notes for knitters and designers who want test projects to be useful, organised, and a bit less chaotic.</p>
+
+    {posts.length > 0 ? (
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    ) : (
+      <div class="mt-10 rounded-[2rem] border-2 border-ink bg-paper/70 p-6 shadow-sm">
+        <p class="text-lg font-semibold leading-8 text-ink-soft">Pattern testing posts are on the way. For now, follow along on Instagram for tester calls, design notes, and work-in-progress updates.</p>
+      </div>
+    )}
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-4">
+    <InstagramCTA title="See tester calls and work-in-progress updates on Instagram" />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-10">
+    <div class="grid gap-5 md:grid-cols-3">
+      {relatedSections.map((card) => <InternalLinkCard {...card} />)}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-4">
+    <NewsletterCTA />
+  </section>
+</BaseLayout>

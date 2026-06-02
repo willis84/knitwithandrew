@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content";
+import InstagramCTA from "@/components/InstagramCTA.astro";
+import NewsletterCTA from "@/components/NewsletterCTA.astro";
+import PostCard from "@/components/PostCard.astro";
+import InternalLinkCard from "@/components/seo/InternalLinkCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { absoluteUrl } from "@/utils/seo";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Blog",
+  description: "Knitting notes, guides, pattern-testing updates, and project write-ups from Andrew.",
+  url: absoluteUrl("/blog/"),
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: posts.map((post, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/blog/${post.id}/`),
+      name: post.data.title,
+    })),
+  },
+};
+const relatedSections = [
+  {
+    href: "/guides/",
+    label: "Read more knitting tutorials",
+    description: "Head to the guides for practical walkthroughs, fixes, and calmer explanations.",
+  },
+  {
+    href: "/pattern-testing/",
+    label: "Pattern testing advice for designers",
+    description: "The pattern testing section focuses on feedback, structure, communication, and running better tests.",
+  },
+  {
+    href: "/patterns/",
+    label: "My knitting pattern notes",
+    description: "Pattern pages collect the design-side posts and the work that is turning into real patterns.",
+  },
+];
+---
+
+<BaseLayout title="Knitting Blog — Knit with Andrew" description="Knitting notes, project write-ups, pattern-testing updates, and colourful maker thoughts from Andrew." structuredData={structuredData}>
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-candy-paint">Writing</p>
+    <h1 class="mt-4 text-6xl font-black tracking-tight text-ink">Knitting blog</h1>
+    <p class="mt-5 max-w-2xl text-xl font-semibold leading-8 text-ink-soft">Project notes, knitting guides, and behind-the-scenes thoughts from the knitting pile.</p>
+
+    {posts.length > 0 ? (
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    ) : (
+      <div class="mt-10 rounded-[2rem] border-2 border-ink bg-paper/70 p-6 text-lg font-semibold leading-8 text-ink-soft">
+        Blog posts are coming together. For now, the guides and pattern testing pages have the most recent writing.
+      </div>
+    )}
+
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {relatedSections.map((card) => <InternalLinkCard {...card} />)}
+    </div>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-2">
+      <InstagramCTA title="Follow the blog between posts" />
+      <NewsletterCTA />
+    </div>
+  </section>
+</BaseLayout>
