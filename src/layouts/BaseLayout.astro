@@ -53,6 +53,23 @@ interface Props {
       <slot />
     </main>
     <SiteFooter />
+    <div class="mx-auto w-full max-w-6xl px-5 pb-6">
+      <div class="flex justify-end">
+      <a
+        href="https://simpleanalytics.com"
+        referrerpolicy="origin"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View Simple Analytics"
+        class="inline-flex opacity-85 transition-opacity hover:opacity-100"
+      >
+        <picture>
+          <source srcset="https://simpleanalyticsbadges.com" media="(prefers-color-scheme: dark)" />
+          <img src="https://simpleanalyticsbadges.com" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous" alt="Simple Analytics Badge" />
+        </picture>
+      </a>
+      </div>
+    </div>
     <script is:inline async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <script is:inline async src="https://scripts.simpleanalyticscdn.com/auto-events.js"></script>
   </body>
